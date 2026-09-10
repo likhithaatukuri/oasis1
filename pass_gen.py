@@ -1,33 +1,35 @@
-def calculate_bmi(weight, height):
-    """Calculate BMI using weight (kg) and height (m)."""
-    bmi = weight / (height ** 2)
-    return bmi
+import random
+import string
 
-def interpret_bmi(bmi):
-    """Interpret the BMI value according to standard categories."""
-    if bmi < 18.5:
-        return "Underweight"
-    elif 18.5 <= bmi < 25:
-        return "Normal weight"
-    elif 25 <= bmi < 30:
-        return "Overweight"
-    else:
-        return "Obese"
+def generate_password(length, use_upper, use_lower, use_digits, use_symbols):
+    character_pool = ""
+
+    if use_upper:
+        character_pool += string.ascii_uppercase
+    if use_lower:
+        character_pool += string.ascii_lowercase
+    if use_digits:
+        character_pool += string.digits
+    if use_symbols:
+        character_pool += string.punctuation
+
+    if not character_pool:
+        return "Error: No character types selected."
+
+    return ''.join(random.choice(character_pool) for _ in range(length))
 
 def main():
-    print("BMI Calculator")
-    print("--------------")
     try:
-        weight = float(input("Enter your weight in kilograms: "))
-        height = float(input("Enter your height in meters: "))
+        length = int(input("Enter password length: "))
+        use_upper = input("Include uppercase letters? (y/n): ").lower() == 'y'
+        use_lower = input("Include lowercase letters? (y/n): ").lower() == 'y'
+        use_digits = input("Include digits? (y/n): ").lower() == 'y'
+        use_symbols = input("Include symbols? (y/n): ").lower() == 'y'
 
-        bmi = calculate_bmi(weight, height)
-        category = interpret_bmi(bmi)
-
-        print(f"\nYour BMI is: {bmi:.2f}")
-        print(f"Category: {category}")
+        password = generate_password(length, use_upper, use_lower, use_digits, use_symbols)
+        print("Generated password:", password)
 
     except ValueError:
-        print("Invalid input. Please enter numbers only.")
+        print("Invalid input. Please enter a number for the password length.")
 
 main()
